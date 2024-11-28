@@ -85,5 +85,77 @@ on i.id = im.id_item
 left join item_inventario as ii on ii.id_item = i.id
 left join item_arma as ia on ia.id_item = i.id;
 
+-- Exercicio 3
+
+create table habilidade (
+	id int not null primary key,
+    atributo_base varchar(30)
+);
+
+insert into habilidade values (1, "Constituição"),
+(2, "Força"),
+(3, "Destreza"),
+(4, "Destreza");
+
+select atributo_base, count(*) as quantidade from habilidade group by atributo_base;
+
+-- Exercicio 4
+
+create table personagem (
+	id int not null primary key,
+    nome varchar(45),
+    idade int,
+    profissao varchar(45),
+    data_criacao date,
+    id_mundo int,
+    constraint fk5 foreign key(id_mundo) references mundo(id)
+);
+
+create table habilidades_personagem (
+	id_habilidade int not null,
+    id_personagem int not null,
+    modificador int,
+    primary key(id_habilidade, id_personagem),
+    constraint fk6 foreign key (id_habilidade) references habilidade(id),
+    constraint fk7 foreign key (id_personagem) references personagem(id)
+);
+
+create table personagem_item (
+	id_item int not null,
+    id_personagem int not null,
+    quantidade int,
+    primary key(id_item, id_personagem),
+    constraint fk8 foreign key (id_item) references item(id),
+    constraint fk9 foreign key (id_personagem) references personagem(id)
+);
+
+insert into personagem () values 
+(1, "Ann`aurora", 21, "Clériga", "2024-06-05", 1),
+(2, "Zurendownr Narrwack", 652, "Diplomata", "2024-06-05", 1);
+
+insert into habilidade () values
+(5, "Corrida de arrancada"),
+(6, "Corrida longa");
+
+insert into habilidades_personagem () values 
+(5, 1, 2),
+(6, 1, 1);
+
+insert into personagem_item () values 
+(1, 1, 3),
+(2, 1, 2),
+(3, 1, 1);
+
+delete from habilidades_personagem where id_habilidade = 6 and id_personagem = 1;
+
+insert into habilidade values 
+(7, "Acrobacia");
+
+insert into habilidades_personagem () values 
+(7, 2, 2);
+
+select p.*, count(hp.id_habilidade) as quantidade_habilidade , count(pi.id_item) as quantidade_item from personagem as p 
+ join habilidades_personagem as hp on p.id = hp.id_personagem
+left join personagem_item as pi on p.id = pi.id_personagem group by p.id;
 
 

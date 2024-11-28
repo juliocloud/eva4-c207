@@ -158,4 +158,26 @@ select p.*, count(hp.id_habilidade) as quantidade_habilidade , count(pi.id_item)
  join habilidades_personagem as hp on p.id = hp.id_personagem
 left join personagem_item as pi on p.id = pi.id_personagem group by p.id;
 
+-- Exercicio 5
 
+create table profissao_pagina (
+    id_pagina int,
+	profissao varchar(45),
+    constraint fk10 foreign key (id_pagina) references pagina(id)
+);
+
+insert into profissao_pagina () values 
+(1, "Clérigo"),
+(1, "Clériga"),
+(1, "Acólito"),
+(1, "Acólita"),
+(1, "Paladino"),
+(1, "Paladina"),
+(1, "Diplomata"),
+(2, "Ladino"),
+(2, "Ladina"),
+(2, "Diplomata");
+
+select  p.nome, group_concat(pag.titulo) from personagem as p
+join profissao_pagina as pp on p.profissao = pp.profissao
+join pagina as pag on pag.id = pp.id_pagina group by p.nome;

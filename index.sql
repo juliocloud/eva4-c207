@@ -160,10 +160,42 @@ left join personagem_item as pi on p.id = pi.id_personagem group by p.id;
 
 -- Exercicio 5
 
+create table personagem_pagina (
+	id_personagem int,
+    id_pagina int,
+    primary key(id_personagem, id_pagina),
+    constraint fk10 foreign key (id_personagem) references personagem(id),
+    constraint fk11 foreign key (id_pagina) references pagina(id)
+);
+
+select * from personagem as p where profissao = "Acólito" 
+or profissao = "Acólita" 
+or profissao = "Paladino" 
+or profissao = "Paladina" 
+or profissao = "Clérigo" 
+or profissao = "Clériga" ;
+
+create view receber_pag_1 as select p.id from personagem as p where profissao = "Acólito" 
+or profissao = "Acólita" 
+or profissao = "Paladino" 
+or profissao = "Paladina" 
+or profissao = "Clérigo" 
+or profissao = "Clériga" ;
+
+
+insert into personagem_pagina ()
+select p.id, 1
+from receber_pag_1 AS p;
+
+select p.nome from personagem as p 
+join personagem_pagina as pp on p.id = pp.id_personagem where pp.id_pagina = 1;
+
+-- Exercicio 6
+
 create table profissao_pagina (
     id_pagina int,
 	profissao varchar(45),
-    constraint fk10 foreign key (id_pagina) references pagina(id)
+    constraint fk12 foreign key (id_pagina) references pagina(id)
 );
 
 insert into profissao_pagina () values 
@@ -181,3 +213,4 @@ insert into profissao_pagina () values
 select  p.nome, group_concat(pag.titulo) from personagem as p
 join profissao_pagina as pp on p.profissao = pp.profissao
 join pagina as pag on pag.id = pp.id_pagina group by p.nome;
+
